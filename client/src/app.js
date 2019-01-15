@@ -1,14 +1,11 @@
-import React, { Component } from 'react'
-import './app.css'
+import React from 'react'
 
-class App extends Component {
-  render() {
-    return (
-      <div>
+import Apollo from './apollo'
+import Ideas from './ideas'
 
-      </div>
-    )
-  }
-}
+const App = () =>
+  <Apollo>
+    <Ideas />
+  </Apollo>
 
 export default App
