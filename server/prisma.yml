@@ -1,0 +1,9 @@
+endpoint: https://eu1.prisma.sh/hobbi/ideaboard/dev
+datamodel: datamodel.prisma
+
+seed:
+  import: seed.graphql
+
+generate:
+  - generator: javascript-client
+    output: ./generated/prisma-client/

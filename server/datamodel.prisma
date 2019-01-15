@@ -1,0 +1,6 @@
+type Idea {
+  id: ID! @unique
+  title: String!
+  body: String!
+  createdAt: DateTime!
+}

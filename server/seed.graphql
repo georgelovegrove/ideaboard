@@ -1,0 +1,26 @@
+mutation {
+  idea1: createIdea(data: {
+    title: "Kitten mittens"
+    body: "Keeping paws warmer than they probably should be"
+  }) {
+    id
+  },
+  idea2: createIdea(data: {
+    title: "Doggo detection"
+    body: "Dog AR service so you know what type of doggo you're looking at"
+  }) {
+    id
+  },
+  idea3: createIdea(data: {
+    title: "Cat world in VR"
+    body: "Experience cats like never before"
+  }) {
+    id
+  },
+  idea4: createIdea(data: {
+    title: "Drone security service"
+    body: "A local neighbourhood swarm of drones to protect your valuable cats and doggos"
+  }) {
+    id
+  }
+}
