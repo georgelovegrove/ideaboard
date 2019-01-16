@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo'
 
 import { ADD_IDEA } from '../graphql'
 import Card from '../components/card'
-import IdeaInputs from './idea-inputs'
+import IdeaInputs from '../components/idea-inputs'
 
 import styles from './add-idea.module.css'
 
@@ -46,7 +46,7 @@ class AddIdea extends Component {
         },
         refetchQueries: ['ideas']
       })
-        .then(() => this.setState({ ... initialState }))
+        .then(() => this.setState({ ...initialState }))
         .catch(error => {
           // TODO: Handle errors (Ain't nobody got time for that)
           this.setState({ loading: false })
@@ -86,6 +86,7 @@ class AddIdea extends Component {
         }
         { showForm &&
           <IdeaInputs
+            autoFocus={true}
             formValues={formValues}
             setFormValues={this.setFormValues}
           />
