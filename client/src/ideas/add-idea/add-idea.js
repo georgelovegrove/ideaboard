@@ -1,15 +1,24 @@
 import React, { Component } from 'react'
+import { graphql } from 'react-apollo'
 
+import { ADD_IDEA } from '../graphql'
 import Card from '../components/card'
-import AddIdeaForm from './add-idea-form'
+import IdeaInputs from './idea-inputs'
 
 import styles from './add-idea.module.css'
 
+const initialState = {
+  showForm: false,
+  formValues: {
+    title: '',
+    body: ''
+  },
+  validForm: false,
+  loading: false
+}
+
 class AddIdea extends Component {
-  state = {
-    showForm: false,
-    validForm: false
-  }
+  state = initialState
 
   showForm = () => {
     if (!this.state.showForm) this.setState({ showForm: true })
@@ -19,12 +28,34 @@ class AddIdea extends Component {
     if (this.state.showForm) this.setState({ showForm: false })
   }
 
-  setValidForm = validForm => {
-    if (validForm !== this.state.validForm) this.setState({ validForm })
+  setFormValues = ({ validForm, formValues }) => {
+    this.setState({ validForm, formValues })
+  }
+
+  addIdea = () => {
+    const { formValues, loading, validForm } = this.state
+
+    if (validForm && !loading) {
+      this.setState({ loading: true })
+
+      // NOTE: Using refetch queries for simplicity rather
+      //    than updating the cache manually as you should
+      this.props.addIdea({
+        variables: {
+          data: formValues
+        },
+        refetchQueries: ['ideas']
+      })
+        .then(() => this.setState({ ... initialState }))
+        .catch(error => {
+          // TODO: Handle errors (Ain't nobody got time for that)
+          this.setState({ loading: false })
+        })
+    }
   }
 
   render() {
-    const { showForm, validForm } = this.state
+    const { showForm, validForm, formValues } = this.state
 
     const hideFormAction = {
       icon: require('../../assets/icons/cross-red.svg'),
@@ -33,7 +64,7 @@ class AddIdea extends Component {
 
     const successFormAction = {
       icon: require('../../assets/icons/tick-green.svg'),
-      onClick: () => {}
+      onClick: this.addIdea
     }
 
     return (
@@ -54,8 +85,9 @@ class AddIdea extends Component {
           </div>
         }
         { showForm &&
-          <AddIdeaForm
-            setValidForm={this.setValidForm}
+          <IdeaInputs
+            formValues={formValues}
+            setFormValues={this.setFormValues}
           />
         }
       </Card>
@@ -63,4 +95,4 @@ class AddIdea extends Component {
   }
 }
 
-export default AddIdea
+export default graphql(ADD_IDEA, { name: 'addIdea' })(AddIdea)
