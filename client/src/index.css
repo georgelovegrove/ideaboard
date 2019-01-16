@@ -8,9 +8,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1, h2, h3, h4, h5, h6, p, textarea, select, input, button {
   margin: 0;
   padding: 0;
+}
+
+textarea, select, input, button {
+  outline: none;
+  box-sizing: border-box;
 }
 
 code {

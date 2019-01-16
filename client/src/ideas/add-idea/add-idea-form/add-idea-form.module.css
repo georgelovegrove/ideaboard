@@ -1,0 +1,28 @@
+.container {
+  width: inherit;
+  height: inherit;
+}
+
+.title {
+  width: 100%;
+  resize: none;
+  padding: 2px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+}
+
+.title:focus {
+  border: 2px solid #D8D8D8;
+}
+
+.body {
+  width: 100%;
+  resize: none;
+  padding: 2px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+}
+
+.body:focus {
+  border: 2px solid #D8D8D8;
+}

@@ -1,0 +1,29 @@
+.container {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 15px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left {
+  top: -12px;
+  left: -10px;
+}
+
+.right {
+  top: -12px;
+  right: -10px;
+}
+
+.container:hover {
+  cursor: pointer;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+}
