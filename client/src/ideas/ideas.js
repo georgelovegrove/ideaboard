@@ -13,15 +13,10 @@ const Ideas = ({ ideasQuery: { loading, ideas } }) => {
     <div className={styles.container}>
       <h2 className={styles.title}>Ideas</h2>
       <div className={styles.ideasList}>
-        { (!ideas || ideas.length === 0) &&
-          <p>No ideas... Start thinking!</p>
-        }
-        { ideas.length > 0 &&
-          <>
-            { ideas.map(idea => <IdeaCard key={idea.id} {...{idea}} />) }
-            <AddIdea />
-          </>
-        }
+        <>
+          { ideas && ideas.map(idea => <IdeaCard key={idea.id} {...{idea}} />) }
+          <AddIdea />
+        </>
       </div>
     </div>
   )
