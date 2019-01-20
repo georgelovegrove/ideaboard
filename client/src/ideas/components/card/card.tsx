@@ -1,24 +1,24 @@
 import React from 'react'
 
-import CircleAction from './circle-action'
+import CircleAction from '../circle-action'
 import { Action } from './types'
 
 import styles from './card.module.css'
 
-const Card = ({ children, leftAction, rightAction, ...props }: Props) =>
+const Card = ({ children, LeftComponent, RightComponent, ...props }: Props) =>
   <div
     className={styles.container}
     {...props}
   >
     { children }
-    { leftAction && <CircleAction {...leftAction} left /> }
-    { rightAction && <CircleAction {...rightAction} right /> }
+    { LeftComponent && <LeftComponent /> }
+    { RightComponent && <RightComponent /> }
   </div>
 
 interface Props {
   children: any,
-  leftAction?: Action,
-  rightAction?: Action,
+  LeftComponent?: any,
+  RightComponent?: any,
   onPointerEnter?: () => void,
   onPointerLeave?: () => void
 }

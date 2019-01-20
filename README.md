@@ -33,4 +33,3 @@ Before development a list was created to detail out each task required.
 ### Improvements
 
 * No need to mention the obvious but better styling and tests
-* The shared card component passes actions through to render top left and top right icons that trigger mutations. The current setup was to prevent CSS duplication but it has made the code less modular (more coupled). Instead it would be easier to maintain if you pass through the top left or right icon components so they can be managed separately in their own folders.

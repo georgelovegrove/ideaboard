@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 
 import { UPDATE_IDEA } from '../graphql'
-import { DELETE_IDEA } from '../graphql'
+import DeleteIdeaAction from './delete-idea-action'
 import Card from '../components/card'
 import IdeaInputs, { SetFormValues, IdeaFormInputs } from '../components/idea-inputs'
 
@@ -55,37 +55,19 @@ class IdeaCard extends Component<Props, State> {
     }
   }
 
-  deleteIdea = () => {
+  renderDeleteIdeaAction = () => {
     const { idea } = this.props
-
-    // NOTE: Using refetch queries for simplicity rather
-    //    than updating the cache manually as you should
-    this.props.deleteIdea({
-      variables: {
-        where: {
-          id: idea.id
-        }
-      },
-      refetchQueries: ['ideas']
-    })
-      .catch((error: any) => {
-        // TODO: Handle errors (Ain't nobody got time for that)
-      })
+    return <DeleteIdeaAction {...{idea}} />
   }
 
   render() {
     const { onHover, formValues } = this.state
 
-    const rightAction = {
-      icon: require('../../assets/icons/trash-grey.svg'),
-      onClick: this.deleteIdea
-    }
-
     return (
       <Card
         onPointerEnter={this.setOnHover(true)}
         onPointerLeave={this.setOnHover(false)}
-        { ...onHover && { rightAction }}
+        { ...onHover && { RightComponent: this.renderDeleteIdeaAction }}
       >
         <IdeaInputs
           onBlur={this.updateIdea}
@@ -113,7 +95,4 @@ interface Props {
   deleteIdea: ({}) => any
 }
 
-export default compose(
-  graphql<any, {}, {}>(UPDATE_IDEA, { name: 'updateIdea' }),
-  graphql<any, {}, {}>(DELETE_IDEA, { name: 'deleteIdea' }),
-)(IdeaCard)
+export default graphql<any, {}, {}>(UPDATE_IDEA, { name: 'updateIdea' })(IdeaCard)
