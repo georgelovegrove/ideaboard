@@ -4,10 +4,10 @@ import { graphql, compose } from 'react-apollo'
 import { UPDATE_IDEA } from '../graphql'
 import { DELETE_IDEA } from '../graphql'
 import Card from '../components/card'
-import IdeaInputs from '../components/idea-inputs'
+import IdeaInputs, { SetFormValues, IdeaFormInputs } from '../components/idea-inputs'
 
-class IdeaCard extends Component {
-  constructor(props) {
+class IdeaCard extends Component<Props, State> {
+  constructor(props: Props) {
     super(props)
 
     const { idea } = props
@@ -21,9 +21,9 @@ class IdeaCard extends Component {
     }
   }
 
-  setOnHover = onHover => () => this.setState({ onHover })
+  setOnHover = (onHover: boolean) => () => this.setState({ onHover })
 
-  setFormValues = ({ validForm, formValues }) => {
+  setFormValues = ({ validForm, formValues }: SetFormValues) => {
     this.setState({ validForm, formValues })
   }
 
@@ -49,7 +49,7 @@ class IdeaCard extends Component {
           }
         }
       })
-        .catch(error => {
+        .catch((error: any) => {
           // TODO: Handle errors (Ain't nobody got time for that)
         })
     }
@@ -68,7 +68,7 @@ class IdeaCard extends Component {
       },
       refetchQueries: ['ideas']
     })
-      .catch(error => {
+      .catch((error: any) => {
         // TODO: Handle errors (Ain't nobody got time for that)
       })
   }
@@ -85,7 +85,7 @@ class IdeaCard extends Component {
       <Card
         onPointerEnter={this.setOnHover(true)}
         onPointerLeave={this.setOnHover(false)}
-        rightAction={onHover && rightAction}
+        { ...onHover && { rightAction }}
       >
         <IdeaInputs
           onBlur={this.updateIdea}
@@ -97,8 +97,23 @@ class IdeaCard extends Component {
   }
 }
 
+interface State {
+  onHover: boolean,
+  validForm: boolean,
+  formValues: IdeaFormInputs
+}
+
+interface Props {
+  idea: {
+    id: string
+    title: string
+    body: string
+  },
+  updateIdea: ({}) => any
+  deleteIdea: ({}) => any
+}
 
 export default compose(
-  graphql(UPDATE_IDEA, { name: 'updateIdea' }),
-  graphql(DELETE_IDEA, { name: 'deleteIdea' }),
+  graphql<any, {}, {}>(UPDATE_IDEA, { name: 'updateIdea' }),
+  graphql<any, {}, {}>(DELETE_IDEA, { name: 'deleteIdea' }),
 )(IdeaCard)

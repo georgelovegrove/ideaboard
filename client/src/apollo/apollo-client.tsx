@@ -14,3 +14,5 @@ export function createClient() {
 
   return client
 }
+
+export default createClient()

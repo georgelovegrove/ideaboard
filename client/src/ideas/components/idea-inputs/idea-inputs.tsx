@@ -1,9 +1,10 @@
 import React from 'react'
 
+import { IdeaFormInputs, SetFormValues } from './types'
 import styles from './idea-inputs.module.css'
 
-const IdeaInputs = ({ formValues, setFormValues, autoFocus, ...props }) => {
-  const setInput = input => e => {
+const IdeaInputs = ({ formValues, setFormValues, autoFocus, ...props }: Props) => {
+  const setInput = (input: any) => (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValues = { ...formValues, [input]: e.target.value }
     setFormValues({
       validForm: checkValidForm(newValues),
@@ -11,7 +12,7 @@ const IdeaInputs = ({ formValues, setFormValues, autoFocus, ...props }) => {
     })
   }
 
-  const checkValidForm = newFormValues => {
+  const checkValidForm = (newFormValues: IdeaFormInputs) => {
     const hasTitle = newFormValues['title'].length > 0
     const hasBody = newFormValues['body'].length > 0
 
@@ -24,7 +25,6 @@ const IdeaInputs = ({ formValues, setFormValues, autoFocus, ...props }) => {
         className={styles.textarea}
         onChange={setInput('title')}
         value={formValues['title']}
-        type='text'
         maxLength={40}
         name='title'
         placeholder='Title'
@@ -36,7 +36,6 @@ const IdeaInputs = ({ formValues, setFormValues, autoFocus, ...props }) => {
         className={styles.textarea}
         onChange={setInput('body')}
         value={formValues['body']}
-        type='text'
         maxLength={140}
         name='body'
         placeholder='Body'
@@ -45,6 +44,13 @@ const IdeaInputs = ({ formValues, setFormValues, autoFocus, ...props }) => {
       />
     </div>
   )
+}
+
+interface Props {
+  formValues: IdeaFormInputs,
+  setFormValues: ({ formValues, validForm }: SetFormValues) => void,
+  autoFocus?: boolean,
+  onBlur?: () => void
 }
 
 export default IdeaInputs

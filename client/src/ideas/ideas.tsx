@@ -7,7 +7,7 @@ import AddIdea from './add-idea'
 
 import styles from './ideas.module.css'
 
-const Ideas = ({ ideasQuery: { loading, ideas } }) => {
+const Ideas = ({ ideasQuery: { loading, ideas } }: Props) => {
   if (loading && !ideas) return <p>Loading...</p>
   return (
     <div className={styles.container}>
@@ -22,4 +22,23 @@ const Ideas = ({ ideasQuery: { loading, ideas } }) => {
   )
 }
 
-export default graphql(IDEAS, { name: 'ideasQuery' })(Ideas)
+interface Props {
+  ideasQuery: IdeasQuery
+}
+
+interface IdeasQuery {
+  ideas: Ideas[],
+  loading: boolean
+}
+
+interface Ideas {
+  id: string,
+  title: string,
+  body: string
+}
+
+interface Response {
+  ideasQuery: IdeasQuery
+}
+
+export default graphql<any, Response, {}>(IDEAS, { name: 'ideasQuery' })(Ideas)

@@ -3,21 +3,11 @@ import { graphql } from 'react-apollo'
 
 import { ADD_IDEA } from '../graphql'
 import Card from '../components/card'
-import IdeaInputs from '../components/idea-inputs'
+import IdeaInputs, { IdeaFormInputs, SetFormValues } from '../components/idea-inputs'
 
 import styles from './add-idea.module.css'
 
-const initialState = {
-  showForm: false,
-  formValues: {
-    title: '',
-    body: ''
-  },
-  validForm: false,
-  loading: false
-}
-
-class AddIdea extends Component {
+class AddIdea extends Component<Props, State> {
   state = initialState
 
   showForm = () => {
@@ -28,7 +18,7 @@ class AddIdea extends Component {
     if (this.state.showForm) this.setState({ showForm: false })
   }
 
-  setFormValues = ({ validForm, formValues }) => {
+  setFormValues = ({ validForm, formValues }: SetFormValues) => {
     this.setState({ validForm, formValues })
   }
 
@@ -47,7 +37,7 @@ class AddIdea extends Component {
         refetchQueries: ['ideas']
       })
         .then(() => this.setState({ ...initialState }))
-        .catch(error => {
+        .catch((error: any) => {
           // TODO: Handle errors (Ain't nobody got time for that)
           this.setState({ loading: false })
         })
@@ -69,8 +59,8 @@ class AddIdea extends Component {
 
     return (
       <Card
-        leftAction={showForm && hideFormAction}
-        rightAction={showForm && validForm && successFormAction}
+        { ...showForm && { leftAction: hideFormAction }}
+        { ...showForm && validForm && { rightAction: successFormAction }}
       >
         { !showForm &&
           <div
@@ -96,4 +86,33 @@ class AddIdea extends Component {
   }
 }
 
-export default graphql(ADD_IDEA, { name: 'addIdea' })(AddIdea)
+const initialState = {
+  showForm: false,
+  formValues: {
+    title: '',
+    body: ''
+  },
+  validForm: false,
+  loading: false
+}
+
+interface State {
+  showForm: boolean,
+  formValues: IdeaFormInputs,
+  validForm: boolean,
+  loading: boolean
+}
+
+interface Props {
+  addIdea: any,
+}
+
+interface Response {
+  addIdea: () => void
+}
+
+interface Variables {
+  data: IdeaFormInputs
+}
+
+export default graphql<any, Response, Variables>(ADD_IDEA, { name: 'addIdea' })(AddIdea)
